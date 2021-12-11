@@ -6,7 +6,7 @@ using namespace std;
 
 namespace m1
 {
-	class Tema1 : public gfxc::SimpleScene
+	class Game : public gfxc::SimpleScene
 	{
 
 	public:
@@ -77,8 +77,8 @@ namespace m1
 		};
 
 	public:
-		Tema1();
-		~Tema1();
+		Game();
+		~Game();
 
 		void Init() override;
 

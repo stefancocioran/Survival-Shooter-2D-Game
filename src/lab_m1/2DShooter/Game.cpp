@@ -1,10 +1,10 @@
-#include "lab_m1/2D-Shooter/2D-shooter.h"
+#include "lab_m1/2DShooter/Game.h"
 
 #include <vector>
 #include <iostream>
 
-#include "lab_m1/2D-Shooter/transform2D.h"
-#include "lab_m1/2D-Shooter/object2D.h"
+#include "lab_m1/2DShooter/transform2D.h"
+#include "lab_m1/2DShooter/object2D.h"
 
 using namespace std;
 using namespace m1;
@@ -16,17 +16,17 @@ using namespace m1;
  */
 
 
-2D-Shooter::2D-Shooter()
+Game::Game()
 {
 }
 
 
-2D-Shooter::~2D-Shooter()
+Game::~Game()
 {
 }
 
 
-void 2D-Shooter::Init()
+void Game::Init()
 {
 	glm::ivec2 resolution = window->GetResolution();
 	auto camera = GetSceneCamera();
@@ -252,7 +252,7 @@ void 2D-Shooter::Init()
 	}
 }
 
-void 2D-Shooter::SetObstacles() {
+void Game::SetObstacles() {
 
 	float transX, transY;
 
@@ -325,7 +325,7 @@ void 2D-Shooter::SetObstacles() {
 }
 
 
-void 2D-Shooter::FrameStart()
+void Game::FrameStart()
 {
 	// Clears the color buffer (using the previously set color) and depth buffer
 	glClearColor(0, 0, 0, 1);
@@ -338,7 +338,7 @@ void 2D-Shooter::FrameStart()
 }
 
 // 2D visualization matrix
-glm::mat3 2D-Shooter::VisualizationTransf2D(const LogicSpace& logicSpace, const ViewportSpace& viewSpace)
+glm::mat3 Game::VisualizationTransf2D(const LogicSpace& logicSpace, const ViewportSpace& viewSpace)
 {
 	float sx, sy, tx, ty;
 	sx = viewSpace.width / logicSpace.width;
@@ -353,7 +353,7 @@ glm::mat3 2D-Shooter::VisualizationTransf2D(const LogicSpace& logicSpace, const 
 }
 
 
-void 2D-Shooter::SetViewportArea(const ViewportSpace& viewSpace, glm::vec3 colorColor, bool clear)
+void Game::SetViewportArea(const ViewportSpace& viewSpace, glm::vec3 colorColor, bool clear)
 {
 	glViewport(viewSpace.x, viewSpace.y, viewSpace.width, viewSpace.height);
 
@@ -371,7 +371,7 @@ void 2D-Shooter::SetViewportArea(const ViewportSpace& viewSpace, glm::vec3 color
 
 
 // Uniform 2D visualization matrix (same scale factor on x and y axes)
-glm::mat3 2D-Shooter::VisualizationTransf2DUnif(const LogicSpace& logicSpace, const ViewportSpace& viewSpace)
+glm::mat3 Game::VisualizationTransf2DUnif(const LogicSpace& logicSpace, const ViewportSpace& viewSpace)
 {
 	float sx, sy, tx, ty, smin;
 	sx = viewSpace.width / logicSpace.width;
@@ -390,7 +390,7 @@ glm::mat3 2D-Shooter::VisualizationTransf2DUnif(const LogicSpace& logicSpace, co
 }
 
 
-void 2D-Shooter::RandomSpawnCoordinates() {
+void Game::RandomSpawnCoordinates() {
 
 	int minX = 0, minY = 0, maxX = mapWidth, maxY = mapHeight;
 	int r;
@@ -484,7 +484,7 @@ void 2D-Shooter::RandomSpawnCoordinates() {
 	numY = (rand() % rangeY) + minY;
 }
 
-bool 2D-Shooter::CircleMapCollision(float circleX, float circleY, float radius)
+bool Game::CircleMapCollision(float circleX, float circleY, float radius)
 {
 	if (circleX - radius <= 0 || circleX + radius >= mapWidth
 		|| circleY - radius <= 0 || circleY + radius >= mapHeight) {
@@ -495,7 +495,7 @@ bool 2D-Shooter::CircleMapCollision(float circleX, float circleY, float radius)
 	}
 }
 
-bool 2D-Shooter::CircleToRectangleCollision(float cx, float cy, float r, obstacle obst)
+bool Game::CircleToRectangleCollision(float cx, float cy, float r, obstacle obst)
 {
 	float circleDistanceX = abs(cx - obst.x);
 	float circleDistanceY = abs(cy - obst.y);
@@ -514,7 +514,7 @@ bool 2D-Shooter::CircleToRectangleCollision(float cx, float cy, float r, obstacl
 
 
 
-bool 2D-Shooter::CircleToCircleCollision(float cx1, float cy1, float r1, float cx2, float cy2, float r2) {
+bool Game::CircleToCircleCollision(float cx1, float cy1, float r1, float cx2, float cy2, float r2) {
 	float dx = (cx1 + r1) - (cx2 + r2);
 	float dy = (cy1 + r1) - (cy2 + r2);
 	float distance = sqrt(dx * dx + dy * dy);
@@ -527,7 +527,7 @@ bool 2D-Shooter::CircleToCircleCollision(float cx1, float cy1, float r1, float c
 	return false;
 }
 
-void 2D-Shooter::DrawScene(glm::mat3 visMatrix, float deltaTimeSeconds, bool minimap)
+void Game::DrawScene(glm::mat3 visMatrix, float deltaTimeSeconds, bool minimap)
 {
 	playerPosX = startPosX + translateX;
 	playerPosY = startPosY + translateY;
@@ -807,7 +807,7 @@ void 2D-Shooter::DrawScene(glm::mat3 visMatrix, float deltaTimeSeconds, bool min
 }
 
 
-void 2D-Shooter::Update(float deltaTimeSeconds)
+void Game::Update(float deltaTimeSeconds)
 {
 	glLineWidth(3);
 	glPointSize(5);
@@ -877,7 +877,7 @@ void 2D-Shooter::Update(float deltaTimeSeconds)
 }
 
 
-void 2D-Shooter::FrameEnd()
+void Game::FrameEnd()
 {
 }
 
@@ -888,7 +888,7 @@ void 2D-Shooter::FrameEnd()
  */
 
 
-void 2D-Shooter::OnInputUpdate(float deltaTime, int mods)
+void Game::OnInputUpdate(float deltaTime, int mods)
 {
 	// Check player collision with map and obstacles
 	if (window->KeyHold(GLFW_KEY_W)) {
@@ -952,7 +952,7 @@ void 2D-Shooter::OnInputUpdate(float deltaTime, int mods)
 }
 
 
-void 2D-Shooter::OnKeyPress(int key, int mods)
+void Game::OnKeyPress(int key, int mods)
 {
 	// Add key press event
 
@@ -974,13 +974,13 @@ void 2D-Shooter::OnKeyPress(int key, int mods)
 }
 
 
-void 2D-Shooter::OnKeyRelease(int key, int mods)
+void Game::OnKeyRelease(int key, int mods)
 {
 	// Add key release event
 }
 
 
-void 2D-Shooter::OnMouseMove(int mouseX, int mouseY, int deltaX, int deltaY)
+void Game::OnMouseMove(int mouseX, int mouseY, int deltaX, int deltaY)
 {
 	// Add mouse move event
 	fmouseX = mouseX, fmouseY = mouseY;
@@ -992,7 +992,7 @@ void 2D-Shooter::OnMouseMove(int mouseX, int mouseY, int deltaX, int deltaY)
 }
 
 
-void 2D-Shooter::OnMouseBtnPress(int mouseX, int mouseY, int button, int mods)
+void Game::OnMouseBtnPress(int mouseX, int mouseY, int button, int mods)
 {
 	// Add mouse button press event
 	if (button == GLFW_MOUSE_BUTTON_2) {
@@ -1002,17 +1002,17 @@ void 2D-Shooter::OnMouseBtnPress(int mouseX, int mouseY, int button, int mods)
 }
 
 
-void 2D-Shooter::OnMouseBtnRelease(int mouseX, int mouseY, int button, int mods)
+void Game::OnMouseBtnRelease(int mouseX, int mouseY, int button, int mods)
 {
 	// Add mouse button release event
 }
 
 
-void 2D-Shooter::OnMouseScroll(int mouseX, int mouseY, int offsetX, int offsetY)
+void Game::OnMouseScroll(int mouseX, int mouseY, int offsetX, int offsetY)
 {
 }
 
 
-void 2D-Shooter::OnWindowResize(int width, int height)
+void Game::OnWindowResize(int width, int height)
 {
 }
