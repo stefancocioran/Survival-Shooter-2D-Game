@@ -390,6 +390,10 @@ glm::mat3 Game::VisualizationTransf2DUnif(const LogicSpace& logicSpace, const Vi
 }
 
 
+// Create random spawn coordinates for enemies
+// each enemy is spawned in a quadrant different from the player's
+// at a safe distance (to not be spawned ON/near the player) and not 
+// on obstacles 
 void Game::RandomSpawnCoordinates() {
 
 	int minX = 0, minY = 0, maxX = mapWidth, maxY = mapHeight;
